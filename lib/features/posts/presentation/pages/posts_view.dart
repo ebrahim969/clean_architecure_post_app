@@ -1,5 +1,6 @@
 import 'package:clean_architicure_posts/core/widgets/loading_widget.dart';
 import 'package:clean_architicure_posts/features/posts/presentation/bloc/posts/posts_bloc.dart';
+import 'package:clean_architicure_posts/features/posts/presentation/pages/add_update_post_view.dart';
 import 'package:clean_architicure_posts/features/posts/presentation/widgets/message_display_widget.dart';
 import 'package:clean_architicure_posts/features/posts/presentation/widgets/posts_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class PostsView extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      floatingActionButton: _buildFlaotingBtn(),
+      floatingActionButton: _buildFlaotingBtn(context),
     );
   }
 
@@ -23,8 +24,7 @@ class PostsView extends StatelessWidget {
       );
 
   Widget _buildBody() {
-    return BlocBuilder<PostsBloc, PostsState>(
-      builder: (context, state) {
+    return BlocBuilder<PostsBloc, PostsState>(builder: (context, state) {
       if (state is LoadingPostsState) {
         return const LoadingWidget();
       } else if (state is LoadedPostsState) {
@@ -38,9 +38,13 @@ class PostsView extends StatelessWidget {
     });
   }
 
-  Widget _buildFlaotingBtn() {
+  Widget _buildFlaotingBtn(context) {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                const AddUpdatePostView(isUpdatePost: false)));
+      },
       child: const Center(
         child: Icon(Icons.add),
       ),
